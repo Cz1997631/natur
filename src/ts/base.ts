@@ -19,6 +19,7 @@ export interface Maps {
 
 export interface Action extends AnyFun {};
 
+// 这表示 `Actions` 是一个键为字符串，值为 `Action` 类型的对象
 export type Actions = Record<string, Action>;
 
 export type WatchEventBase = {
@@ -43,6 +44,7 @@ export type WatchAPIBase = {
 	getStore: () => StoreBase;
 }
 
+// watch函数签名
 export interface WatcherBase {
 	(we: any, apis: any): any;
 }
@@ -55,7 +57,7 @@ export interface StoreModule {
 	state: State;
 	actions: Actions;
 	maps?: Maps;
-	watch?: AllWatcherBase | WatchObjectBase;
+	watch?: AllWatcherBase | WatchObjectBase; // watch函数或者watch对象
 }
 
 export interface InjectStoreModule {
@@ -83,9 +85,12 @@ export type MapsFun = {
 };
 
 export type InjectStoreModules = {
-	[k: string]: InjectStoreModule;
+	[k: string]: InjectStoreModule; // 缺少watch的store模块
 };
 
+/**
+ * 懒加载store模块
+ */
 export interface LazyStoreModules {
 	[p: string]: () => Promise<StoreModule | { default: StoreModule }>;
 }

@@ -6,8 +6,10 @@
  * @desc [description]
  */
 import MapCache from "./MapCache";
+// 用于创建一个容器或注入器
 export { default as createInject } from "./inject";
 export { createUseInject } from "./useInject";
+// 用于创建状态管理器  函数接收一个 reducer 函数作为参数，并返回一个具有状态管理功能的对象，也称为 store。
 export { default as createStore } from "./createStore";
 export { createUseStore } from './useStore'
 export { NaturBaseFactory } from './NaturBaseFactory'

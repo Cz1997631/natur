@@ -14,6 +14,7 @@ import React, {
 	useState,
 	useSyncExternalStore,
 } from "react";
+// 复制静态方法组件
 import hoistStatics from "hoist-non-react-statics";
 import {
 	AnyFun,

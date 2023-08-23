@@ -32,7 +32,9 @@ type anyFn = (...arg: any[]) => any;
 type fnObj = { [p: string]: anyFn };
 type mapsObj = { [p: string]: Array<any> | Function };
 
+// 泛型 T 为对象类型 { [p: string]: any } 接收一个obj: any，返回值为obj 推断是否为T类型  返回值为boolean
 export const isObj = <T = Obj>(obj: any): obj is T =>
+	// 推断obj是否为对象类型并且不为null并且构造函数为{ [p: string]: any }
 	typeof obj === "object" && obj !== null && obj.constructor === Object;
 
 export const isFn = (arg: any): arg is anyFn => typeof arg === "function";
@@ -152,7 +154,7 @@ export function isEqualWithDepthLimit(
 		if (depth === depthLimit && !is(objA[keysA[i]], objB[keysB[i]])) {
 			return false
 		}
-		
+
 	}
 	return true;
 }
@@ -161,27 +163,35 @@ export function isEqualWithDepthLimit(
  * @param obj State
  * @param keyPath 'a.b[0].c'
  */
+// 接收一个obj:State:any和一个keyPath:string 返回值为any
 export function getValueFromObjByKeyPath(obj: State, keyPath: string): any {
+	// 将keyPath中的[]替换为.并且去掉.返回一个数组
 	const formatKeyArr = keyPath
 		.replace(/\[/g, ".")
 		.replace(/\]/g, "")
 		.split(".");
 	let value = obj;
+	// 循环formatKeyArr数组
 	for (let i = 0; i < formatKeyArr.length; i++) {
+		// 如果value[formatKeyArr[i]]为undefined则返回undefined 否则将value[formatKeyArr[i]]赋值给value
 		try {
 			value = value[formatKeyArr[i]];
 		} catch (error) {
 			return undefined;
 		}
 	}
+	// 返回value
 	return value;
 }
 
+// 接收两个数组类型的参数 arr1和arr2 返回值为boolean
 export function arrayIsEqual(arr1: Array<any>, arr2: Array<any>) {
+	// 如果arr1和arr2的长度不相等则返回false
 	if (arr1.length !== arr2.length) {
 		return false;
 	}
 	for (let i = 0; i < arr1.length; i++) {
+		// 如果arr1[i]和arr2[i]不相等则返回false
 		if (arr1[i] !== arr2[i]) {
 			return false;
 		}

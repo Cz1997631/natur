@@ -42,9 +42,9 @@ type StoreModuleWithoutMaps = {
  * 生成模块类型
  */
 export type ModuleType<M extends StoreModule> = {
-	[m in keyof M]: 
+	[m in keyof M]:
 		m extends "state" ? M["state"] : m extends "actions"
-				? GenActionsType<M["actions"], M["state"]> 
+				? GenActionsType<M["actions"], M["state"]>
 				: m extends "maps"
 					? M extends StoreModuleWithMaps
 						? GenMapsType<M["maps"], M["state"]>
@@ -104,6 +104,8 @@ export interface PickedLazyStoreModules {
 
 /**
  * 将懒加载类型计算为于同步类型相同的类型
+ * 例如：{a: () => Promise<{default: {state: {a: 1}}}>} => {a: {state: {a: 1}}}
+ * `Omit` 是 TypeScript 中的一个工具类型（utility type），用于创建一个新类型，基于给定类型并排除指定属性。
  */
 export type PickLazyStoreModules<LMS extends LazyStoreModules> = {
 	[p in keyof LMS]: LMS[p] extends () => Promise<infer V>
@@ -338,7 +340,7 @@ export type Listener<
  * 生成store类型
  */
 export interface Store<
-	M extends Modules,
+	M extends Modules, //[p: string]: {store};
 	LM extends LazyStoreModules,
 	StoreType extends InjectStoreModules = GenerateStoreType<M, LM>,
 	AOST extends Modules = M & {
